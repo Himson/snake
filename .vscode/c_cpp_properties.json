@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/li/Downloads/wheel_less_snake/devel/include",
+                "/opt/ros/lunar/include",
+                "/home/li/Downloads/wheel_less_snake/src/gazebo_dvs_plugin/include",
+                "/home/li/Downloads/wheel_less_snake/src/generic_controller_plugin/include",
+                "/home/li/Downloads/wheel_less_snake/src/wheel_less_snake_controller/include",
+                "/usr/include"
+            ],
+            "name": "Linux",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

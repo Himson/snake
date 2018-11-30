@@ -1,0 +1,7 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/li/Downloads/wheel_less_snake/devel/lib/python2.7/dist-packages",
+        "/opt/ros/lunar/lib/python2.7/dist-packages"
+    ],
+    "ros.distro": "lunar"
+}

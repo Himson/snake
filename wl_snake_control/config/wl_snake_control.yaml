@@ -1,0 +1,39 @@
+planar_snake:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  # Also means the joint trajectory is published with 50 Hz
+
+  # Position Controllers ---------------------------------------
+  joint1_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_1
+    pid: {p: 250.0, i: 0.05, d: 100.0}
+  joint2_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_2
+    pid: {p: 250.0, i: 0.05, d: 100.0}
+  joint3_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_3
+    pid: {p: 250.0, i: 0.05, d: 100.0}
+  joint4_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_4
+    pid: {p: 250.0, i: 0.05, d: 100.0}
+  joint5_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_5
+    pid: {p: 250.0, i: 0.05, d: 100.0}
+  joint6_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_6
+    pid: {p: 250.0, i: 0.05, d: 100.0}
+  joint7_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_7
+    pid: {p: 250.0, i: 0.05, d: 100.0}
+  joint8_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_8
+    pid: {p: 250.0, i: 0.05, d: 100.0}

@@ -1,0 +1,13 @@
+<launch>
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find wl_snake_gazebo)/worlds/wl_snake.world"/>
+    <!-- more default parameters can be changed here -->
+    <arg name="paused" value="true"/>
+  </include>
+
+  <!--<param name="wl_snake" textfile="$(find wl_snake_description)/sdf/model.sdf" />-->
+  <node name="wl_snake_sdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find wl_snake_description)/sdf/model.sdf -sdf -model wl_snake" />
+  
+</launch>

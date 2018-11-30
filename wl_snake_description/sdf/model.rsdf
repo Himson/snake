@@ -1,0 +1,223 @@
+<?xml version="1.0" ?>
+
+<%
+  #Parameter definition
+  PI			= 3.1415926535897931
+  radius		= 0.026
+  length_collision	= 0.03
+  length_visual 	= 0.01
+  length_head		= 0.05
+  mass			= 0.1
+  link_offset_x 	= -0.064
+  link_offset_y 	= 0
+  link_offset_z 	= 0.03
+  module_num		= 17
+  @module_id 		= [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]
+  @rotation_mesh_i_y 	= [2,1,0,-1]
+  @rotation_mesh_o_y 	= [-1,2,1,0]
+  @rotation_joint_x	= [0,1,2,3]
+%>
+
+<sdf version="1.6">
+
+  <model name="snake_jzy">
+  <% #Main block %>
+  <% @module_id.each do |val_module_id|%>
+
+    <% if val_module_id > 1 %>
+    <joint name="joint_<%= val_module_id-1 %>" type="revolute">
+      <parent>module_<%= val_module_id-1 %></parent>
+      <child>module_<%= val_module_id %></child>
+      <pose>0.035 0 0 <%= @rotation_joint_x[(val_module_id-2)%4]*PI*(0.5) %> -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower><%= PI*(-0.5) %></lower>
+          <upper><%= PI*(0.5) %></upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    <% end %>
+
+    <link name="module_<%= val_module_id %>">
+      <pose><%= link_offset_x*(val_module_id-1) %> <%= link_offset_y %> <%= link_offset_z %> 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass><%= mass %></mass>
+        <inertia>
+          <ixx><%= 0.5*mass*radius**2 %></ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy><%= mass/12.0*(3*radius**2+length_collision**2)+mass*(length_collision/2.0)**2 %></iyy>
+          <iyz>0</iyz>
+          <izz><%= mass/12.0*(3*radius**2+length_collision**2)+mass*(length_collision/2.0)**2 %></izz>
+        </inertia>
+      </inertial>
+      <collision name="module_<%= val_module_id %>_collision">
+        <pose>0 0 0 <%= PI %> <%= PI*(-0.5) %> <%= PI %></pose>
+        <geometry>
+	  <cylinder>
+            <radius><%= radius %></radius>
+            <length><%= length_collision %></length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <% if val_module_id ==1 %>
+      <visual name="module_head_visual">
+        <pose><%= length_head*0.5 %> 0 0 <%= PI %> <%= PI*(-0.5) %> <%= PI %></pose>
+        <geometry>
+          <cylinder>
+            <radius><%= radius-0.001 %></radius>
+            <length><%= length_head %></length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      <% end %>
+      <visual name="module_<%= val_module_id %>_visual">
+        <pose>0 0 0 <%= PI %> <%= PI*(-0.5) %> <%= PI %></pose>
+        <geometry>
+          <cylinder>
+            <radius><%= radius %></radius>
+	    <length><%= length_visual %></length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    <% if val_module_id%2 == 1 %>
+              <name>Gazebo/Red</name>
+	    <% else %>
+	      <name>Gazebo/Black</name>
+	    <% end %>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      <% if val_module_id <= module_num %>
+      <visual name="module_<%= val_module_id %>_visual_mesh_i">
+        <pose>-0.03 0 0 0 <%= @rotation_mesh_i_y[(val_module_id-1)%4]*PI*(0.5) %> <%= PI*(0.5) %></pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      <% end %>
+      <% if val_module_id > 1 %>
+      <visual name="module_<%= val_module_id %>_visual_mesh_o">
+        <pose>0.032 0 0 0 <%= @rotation_mesh_o_y[(val_module_id-1)%4]*PI*(0.5) %> <%= PI*(0.5) %></pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      <% end %>
+      <% if val_module_id == 1 %>
+      <sensor type="camera" name="snake_camera">
+        <pose>0.15 0 0 0 -0 0</pose>
+        <update_rate>30.0</update_rate>
+        <always_on>1</always_on>
+        <visualize>true</visualize>
+        <topic>/snake/eye</topic>
+        <camera name="snake_eye">
+          <horizontal_fov><%= PI*0.5 %></horizontal_fov>
+          <image>
+            <width>320</width>
+            <height>240</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <!-- Noise is sampled independently per pixel on each frame.
+                 That pixel's noise value is added to each of its color
+                 channels, which at that point lie in the range [0,1]. -->
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <cameraName>snake/camera</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>camera_link</frameName>
+          <hackBaseline>0.07</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+      </sensor>
+
+      <sensor name='dvs' type='camera'>
+        <pose>0.15 0 0 0 -0 0</pose>
+        <visualize>1</visualize>
+        <camera name='__default__'>
+          <horizontal_fov><%= PI*0.5 %></horizontal_fov>
+          <image>
+            <width>128</width>
+            <height>128</height>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>100</far>
+          </clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>60</update_rate>
+        <visualize>0</visualize>
+        <plugin name='dvs_controller' filename='libgazebo_dvs_plugin.so'>
+          <cameraName>dvs128</cameraName>
+          <robotNamespace>head</robotNamespace>
+          <eventThreshold>10</eventThreshold>
+          <cameraInfoTopicName>dvs_info</cameraInfoTopicName>
+        </plugin>
+        <pose>0 0 0 0 -0 0</pose>
+      </sensor>
+      <% end %>
+    </link>
+  <% end %>
+
+    <plugin filename="libgeneric_controller_plugin.so" name="snake_control">
+    <% #Plugin block %>
+    <% @module_id.each do |val_module_id| %>
+      <% if val_module_id < module_num %>
+      <controller joint_name='joint_<%= val_module_id%>'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      <% end %>
+    <% end %>
+    </plugin>
+  </model>
+</sdf>

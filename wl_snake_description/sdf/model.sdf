@@ -1,0 +1,1871 @@
+<?xml version="1.0" ?>
+
+
+
+<sdf version="1.6">
+
+  <model name="snake_jzy">
+    
+
+    
+
+    <link name="module_1">
+      <pose>-0.0 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_1_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_head_visual">
+        <pose>0.025 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.024999999999999998</radius>
+            <length>0.05</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_1_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+              <name>Gazebo/Red</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_1_visual_mesh_i">
+        <pose>-0.03 0 0 0 3.141592653589793 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <sensor name="laser" type="ray">
+        <pose>0.01 0 0.0175 0 -0 0</pose>
+        <always_on>true</always_on>
+        <update_rate>30.0</update_rate>
+        <visualize>true</visualize>
+        <topic>/scan</topic>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>640</samples>
+              <resolution>1</resolution>
+              <min_angle>-2.26889</min_angle>
+              <max_angle>2.268899</max_angle>
+            </horizontal>
+          </scan>
+          <noise>
+            <type>gaussian</type>
+            <!-- Noise is sampled independently per pixel on each frame.
+                 That pixel's noise value is added to each of its color
+                 channels, which at that point lie in the range [0,1]. -->
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+          <range>
+            <min>0.08</min>
+            <max>10</max>
+            <resolution>0.01</resolution>
+          </range>
+        </ray>
+        <plugin name="laser" filename="/usr/lib/x86_64-linux-gnu/gazebo-7/plugins/libRayPlugin.so"/>
+      </sensor>
+      
+      <sensor type="camera" name="snake_camera">
+        <pose>0.15 0 0 0 -0 0</pose>
+        <update_rate>30.0</update_rate>
+        <always_on>1</always_on>
+        <visualize>true</visualize>
+        <topic>/snake/eye</topic>
+        <camera name="snake_eye">
+          <horizontal_fov>1.5707963267948966</horizontal_fov>
+          <image>
+            <width>320</width>
+            <height>240</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>100</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <!-- Noise is sampled independently per pixel on each frame.
+                 That pixel's noise value is added to each of its color
+                 channels, which at that point lie in the range [0,1]. -->
+            <mean>0.0</mean>
+            <stddev>0.007</stddev>
+          </noise>
+        </camera>
+        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>0.0</updateRate>
+          <cameraName>snake/camera</cameraName>
+          <imageTopicName>image_raw</imageTopicName>
+          <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          <frameName>camera_link</frameName>
+          <hackBaseline>0.07</hackBaseline>
+          <distortionK1>0.0</distortionK1>
+          <distortionK2>0.0</distortionK2>
+          <distortionK3>0.0</distortionK3>
+          <distortionT1>0.0</distortionT1>
+          <distortionT2>0.0</distortionT2>
+        </plugin>
+      </sensor>
+
+      <sensor name='dvs' type='camera'>
+        <pose>0.15 0 0 0 -0 0</pose>
+        <visualize>1</visualize>
+        <camera name='__default__'>
+          <horizontal_fov>1.5707963267948966</horizontal_fov>
+          <image>
+            <width>128</width>
+            <height>128</height>
+          </image>
+          <clip>
+            <near>0.01</near>
+            <far>100</far>
+          </clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>60</update_rate>
+        <visualize>0</visualize>
+        <plugin name='dvs_controller' filename='libgazebo_dvs_plugin.so'>
+          <cameraName>dvs128</cameraName>
+          <robotNamespace>head</robotNamespace>
+          <eventThreshold>10</eventThreshold>
+          <cameraInfoTopicName>dvs_info</cameraInfoTopicName>
+        </plugin>
+        <pose>0 0 0 0 -0 0</pose>
+      </sensor>
+      
+    </link>
+  
+
+    
+    <joint name="joint_1" type="revolute">
+      <parent>module_1</parent>
+      <child>module_2</child>
+      <pose>0.035 0 0 0.0 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_2">
+      <pose>-0.064 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_2_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_2_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+	      <name>Gazebo/Black</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_2_visual_mesh_i">
+        <pose>-0.03 0 0 0 1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_2_visual_mesh_o">
+        <pose>0.032 0 0 0 3.141592653589793 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_2" type="revolute">
+      <parent>module_2</parent>
+      <child>module_3</child>
+      <pose>0.035 0 0 1.5707963267948966 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_3">
+      <pose>-0.128 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_3_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_3_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+              <name>Gazebo/Red</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_3_visual_mesh_i">
+        <pose>-0.03 0 0 0 0.0 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_3_visual_mesh_o">
+        <pose>0.032 0 0 0 1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_3" type="revolute">
+      <parent>module_3</parent>
+      <child>module_4</child>
+      <pose>0.035 0 0 3.141592653589793 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_4">
+      <pose>-0.192 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_4_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_4_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+	      <name>Gazebo/Black</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_4_visual_mesh_i">
+        <pose>-0.03 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_4_visual_mesh_o">
+        <pose>0.032 0 0 0 0.0 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_4" type="revolute">
+      <parent>module_4</parent>
+      <child>module_5</child>
+      <pose>0.035 0 0 4.71238898038469 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_5">
+      <pose>-0.256 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_5_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_5_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+              <name>Gazebo/Red</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_5_visual_mesh_i">
+        <pose>-0.03 0 0 0 3.141592653589793 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_5_visual_mesh_o">
+        <pose>0.032 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_5" type="revolute">
+      <parent>module_5</parent>
+      <child>module_6</child>
+      <pose>0.035 0 0 0.0 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_6">
+      <pose>-0.32 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_6_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_6_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+	      <name>Gazebo/Black</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_6_visual_mesh_i">
+        <pose>-0.03 0 0 0 1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_6_visual_mesh_o">
+        <pose>0.032 0 0 0 3.141592653589793 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_6" type="revolute">
+      <parent>module_6</parent>
+      <child>module_7</child>
+      <pose>0.035 0 0 1.5707963267948966 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_7">
+      <pose>-0.384 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_7_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_7_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+              <name>Gazebo/Red</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_7_visual_mesh_i">
+        <pose>-0.03 0 0 0 0.0 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_7_visual_mesh_o">
+        <pose>0.032 0 0 0 1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_7" type="revolute">
+      <parent>module_7</parent>
+      <child>module_8</child>
+      <pose>0.035 0 0 3.141592653589793 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_8">
+      <pose>-0.448 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_8_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_8_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+	      <name>Gazebo/Black</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_8_visual_mesh_i">
+        <pose>-0.03 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_8_visual_mesh_o">
+        <pose>0.032 0 0 0 0.0 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_8" type="revolute">
+      <parent>module_8</parent>
+      <child>module_9</child>
+      <pose>0.035 0 0 4.71238898038469 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_9">
+      <pose>-0.512 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_9_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_9_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+              <name>Gazebo/Red</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_9_visual_mesh_i">
+        <pose>-0.03 0 0 0 3.141592653589793 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_9_visual_mesh_o">
+        <pose>0.032 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_9" type="revolute">
+      <parent>module_9</parent>
+      <child>module_10</child>
+      <pose>0.035 0 0 0.0 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_10">
+      <pose>-0.5760000000000001 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_10_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_10_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+	      <name>Gazebo/Black</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_10_visual_mesh_i">
+        <pose>-0.03 0 0 0 1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_10_visual_mesh_o">
+        <pose>0.032 0 0 0 3.141592653589793 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_10" type="revolute">
+      <parent>module_10</parent>
+      <child>module_11</child>
+      <pose>0.035 0 0 1.5707963267948966 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_11">
+      <pose>-0.64 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_11_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_11_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+              <name>Gazebo/Red</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_11_visual_mesh_i">
+        <pose>-0.03 0 0 0 0.0 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_11_visual_mesh_o">
+        <pose>0.032 0 0 0 1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_11" type="revolute">
+      <parent>module_11</parent>
+      <child>module_12</child>
+      <pose>0.035 0 0 3.141592653589793 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_12">
+      <pose>-0.704 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_12_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_12_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+	      <name>Gazebo/Black</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_12_visual_mesh_i">
+        <pose>-0.03 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_12_visual_mesh_o">
+        <pose>0.032 0 0 0 0.0 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_12" type="revolute">
+      <parent>module_12</parent>
+      <child>module_13</child>
+      <pose>0.035 0 0 4.71238898038469 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_13">
+      <pose>-0.768 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_13_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_13_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+              <name>Gazebo/Red</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_13_visual_mesh_i">
+        <pose>-0.03 0 0 0 3.141592653589793 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_13_visual_mesh_o">
+        <pose>0.032 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_13" type="revolute">
+      <parent>module_13</parent>
+      <child>module_14</child>
+      <pose>0.035 0 0 0.0 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_14">
+      <pose>-0.8320000000000001 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_14_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_14_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+	      <name>Gazebo/Black</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_14_visual_mesh_i">
+        <pose>-0.03 0 0 0 1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_14_visual_mesh_o">
+        <pose>0.032 0 0 0 3.141592653589793 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_14" type="revolute">
+      <parent>module_14</parent>
+      <child>module_15</child>
+      <pose>0.035 0 0 1.5707963267948966 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_15">
+      <pose>-0.896 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_15_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_15_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+              <name>Gazebo/Red</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_15_visual_mesh_i">
+        <pose>-0.03 0 0 0 0.0 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_15_visual_mesh_o">
+        <pose>0.032 0 0 0 1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_15" type="revolute">
+      <parent>module_15</parent>
+      <child>module_16</child>
+      <pose>0.035 0 0 3.141592653589793 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_16">
+      <pose>-0.96 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_16_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_16_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+	      <name>Gazebo/Black</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_16_visual_mesh_i">
+        <pose>-0.03 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_16_visual_mesh_o">
+        <pose>0.032 0 0 0 0.0 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    
+    <joint name="joint_16" type="revolute">
+      <parent>module_16</parent>
+      <child>module_17</child>
+      <pose>0.035 0 0 4.71238898038469 -0 0</pose>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5707963267948966</lower>
+          <upper>1.5707963267948966</upper>
+          <effort>7.0</effort>
+          <velocity>2.208932</velocity>
+        </limit>
+        <dynamics>
+	  <!--<damping>0.1</damping>-->
+	  <friction>0.2</friction>
+	</dynamics>
+      </axis>
+    </joint>
+    
+
+    <link name="module_17">
+      <pose>-1.024 0 0.03 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>3.38e-05</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>4.69e-05</iyy>
+          <iyz>0</iyz>
+          <izz>4.69e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name="module_17_collision">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+	  <cylinder>
+            <radius>0.026</radius>
+            <length>0.03</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      
+      <visual name="module_17_visual">
+        <pose>0 0 0 3.141592653589793 -1.5707963267948966 3.141592653589793</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.026</radius>
+	    <length>0.01</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+	    
+              <name>Gazebo/Red</name>
+	    
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      <visual name="module_17_visual_mesh_i">
+        <pose>-0.03 0 0 0 3.141592653589793 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_input.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+      <visual name="module_17_visual_mesh_o">
+        <pose>0.032 0 0 0 -1.5707963267948966 1.5707963267948966</pose>
+        <geometry>
+          <mesh>
+            <uri>/home/li/Downloads/wheel_less_snake/src/wl_snake_description/meshes/rotary_output.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gold</name>
+          </script>
+          <specular>1 1 1 1</specular>
+        </material>
+      </visual>
+      
+      
+    </link>
+  
+
+    <plugin filename="libgeneric_controller_plugin.so" name="snake_control">
+        
+      
+      <controller joint_name='joint_1'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_2'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_3'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_4'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_5'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_6'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_7'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_8'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_9'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_10'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_11'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_12'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_13'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_14'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_15'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+      
+    
+      
+      <controller joint_name='joint_16'>
+        <pid>100.0 0.0 0.0</pid>
+        <type>position</type>
+      </controller>
+    
+    </plugin>
+  </model>
+</sdf>

@@ -11,7 +11,8 @@
                 "/home/li/Downloads/wheel_less_snake/src/gazebo_dvs_plugin/include",
                 "/home/li/Downloads/wheel_less_snake/src/generic_controller_plugin/include",
                 "/home/li/Downloads/wheel_less_snake/src/wheel_less_snake_controller/include",
-                "/usr/include"
+                "/usr/include",
+                "/home/li/Downloads/hbpneurorobotics-gazebo-53816dc93c5e"
             ],
             "name": "Linux",
             "intelliSenseMode": "gcc-x64"

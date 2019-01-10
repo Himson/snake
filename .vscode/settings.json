@@ -4,5 +4,6 @@
         "/opt/ros/lunar/lib/python2.7/dist-packages"
     ],
     "ros.distro": "lunar",
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "C_Cpp.errorSquiggles": "Enabled"
 }

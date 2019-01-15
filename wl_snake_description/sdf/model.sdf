@@ -193,7 +193,7 @@
         </plugin>
       </sensor>
       <sensor name="laser" type="ray">
-        <pose>0 0 0 90 0 0</pose>
+        <pose>0 0 0 0 0 0</pose>
         <ray>
           <scan>
             <horizontal>
@@ -1797,112 +1797,112 @@
         
       
       <controller joint_name='joint_1'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_2'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_3'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_4'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_5'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_6'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_7'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_8'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_9'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_10'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_11'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_12'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_13'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_14'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_15'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
     
       
       <controller joint_name='joint_16'>
-        <pid>100.0 0.0 0.0</pid>
+        <pid>10.0 0.0 0.0</pid>
         <type>position</type>
       </controller>
       
